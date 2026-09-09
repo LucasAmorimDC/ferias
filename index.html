@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1f2937">
+  <title>Contagem Regressiva para as Férias</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      min-height:100%;
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(135deg,#111827,#1f2937);
+      color:#fff
+    }
+    body{
+      min-height:100vh;
+      min-height:100dvh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px
+    }
+    .container{
+      width:100%;
+      max-width:900px;
+      text-align:center
+    }
+    h1{
+      margin:0 0 10px;
+      font-size:clamp(1.8rem,5vw,3rem)
+    }
+    .subtitle{
+      margin:0 0 30px;
+      color:#d1d5db;
+      font-size:clamp(1rem,3vw,1.25rem)
+    }
+    .countdown{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px
+    }
+    .box{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:18px;
+      padding:24px 10px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25)
+    }
+    .number{
+      display:block;
+      font-size:clamp(2rem,8vw,4.5rem);
+      font-weight:700;
+      line-height:1;
+      margin-bottom:10px
+    }
+    .label{
+      color:#d1d5db;
+      font-size:clamp(.8rem,2.8vw,1rem);
+      text-transform:uppercase;
+      letter-spacing:1px
+    }
+    .message{
+      margin-top:28px;
+      font-size:clamp(1.3rem,4vw,2rem);
+      font-weight:700
+    }
+    .note{
+      margin-top:10px;
+      color:#9ca3af;
+      font-size:.9rem
+    }
+    @media(max-width:650px){
+      .countdown{grid-template-columns:repeat(2,1fr)}
+      .box{padding:22px 8px}
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>⏳ Contagem Regressiva</h1>
+    <p class="subtitle">Quanto falta para 01/10/2026?</p>
+
+    <section class="countdown">
+      <div class="box"><span class="number" id="dias">0</span><span class="label">Dias</span></div>
+      <div class="box"><span class="number" id="horas">00</span><span class="label">Horas</span></div>
+      <div class="box"><span class="number" id="minutos">00</span><span class="label">Minutos</span></div>
+      <div class="box"><span class="number" id="segundos">00</span><span class="label">Segundos</span></div>
+    </section>
+
+    <div class="message" id="mensagem">🏖️ Fériaaas 😎</div>
+    <div class="note">O contador usa o horário do aparelho em que a página estiver aberta.</div>
+  </main>
+
+  <script>
+    const dataAlvo = new Date(2026, 9, 1, 0, 0, 0);
+
+    function pad(v){
+      return String(v).padStart(2, "0");
+    }
+
+    function atualizar(){
+      const agora = new Date();
+      const diff = dataAlvo - agora;
+
+      if(diff <= 0){
+        document.getElementById("dias").textContent = "0";
+        document.getElementById("horas").textContent = "00";
+        document.getElementById("minutos").textContent = "00";
+        document.getElementById("segundos").textContent = "00";
+        document.getElementById("mensagem").textContent = "🎉 Fériaaas!";
+        return;
+      }
+
+      const total = Math.floor(diff / 1000);
+      document.getElementById("dias").textContent = Math.floor(total / 86400);
+      document.getElementById("horas").textContent = pad(Math.floor((total % 86400) / 3600));
+      document.getElementById("minutos").textContent = pad(Math.floor((total % 3600) / 60));
+      document.getElementById("segundos").textContent = pad(total % 60);
+    }
+
+    atualizar();
+    setInterval(atualizar, 1000);
+  </script>
+</body>
+</html>
